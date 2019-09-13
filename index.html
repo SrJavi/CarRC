@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="shortcut icon" href="./favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="manifest" href="./manifest.json" />
+    <title>Auto</title>
+  </head>
+  <body onload="javascript:start();">
+  
+  <h1>DEMO</h1>
+  <p id="p1">Hello World!</p>
+  <button id="IZQ"  type="button" onclick="buttonclick(this);">IZQ</button> 
+  <button id="CEN" type="button" onclick="buttonclick(this);">CEN</button>
+  <button id="DER" type="button" onclick="buttonclick(this);">DER</button>
+  
+  
+  </br>
+  
+  <button id="FRT"  type="button" onclick="buttonclick(this);">FRONT</button> 
+  <button id="REV" type="button" onclick="buttonclick(this);">REVERSE</button>
+  <button id="BRK" type="button" onclick="buttonclick(this);">BRAKE</button>
+  
+    <script>
+      var websock;
+      function start() {
+        websock = new WebSocket('ws://' + '192.168.4.1' + ':81/');
+        websock.onopen = function(evt) { 
+        document.getElementById("p1").innerHTML = "Connected";
+        console.log('websock open'); };
+        websock.onclose = function(evt) { 
+        document.getElementById("p1").innerHTML = "close";
+        console.log('websock close'); };
+        websock.onerror = function(evt) { 
+        document.getElementById("p1").innerHTML = "error";
+        console.log(evt); };
+        websock.onmessage = function(evt) {
+          console.log(evt);
+        };
+      }
+      function buttonclick(e) {
+        websock.send(e.id);
+      }
+    </script>
+  </body>
+</html>
